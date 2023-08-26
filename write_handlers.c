@@ -110,7 +110,7 @@ int write_num(int ind, char buffer[],
 	if (width > length)
 	{
 		for (x = 1; x < width - length + 1; x++)
-			buffer[i] = padd;
+			buffer[x] = padd;
 		buffer[x] = '\0';
 		if (flags & F_MINUS && padd == ' ')/* Asign extra char to left of buffer */
 		{
@@ -128,7 +128,7 @@ int write_num(int ind, char buffer[],
 		{
 			if (extra_c)
 				buffer[--pdd_start] = extra_c;
-			return (write(1, &buffer[pdd_start], i - pdd_start) +
+			return (write(1, &buffer[pdd_start], x - pdd_start) +
 				write(1, &buffer[ind], length - (1 - pdd_start)));
 		}
 	}
@@ -138,7 +138,7 @@ int write_num(int ind, char buffer[],
 }
 
 /**
- * write_unsgnd - Writes an unsigned number
+ * write_unsgnd - Writes an unsigned num
  * @is_negative: Number indicating if the num is negative
  * @ind: Index at which the number starts in the buffer
  * @buffer: Array of chars
@@ -163,10 +163,10 @@ int write_unsgnd(int is_negative, int ind,
 	if (precision == 0 && ind == BUFF_SIZE - 2 && buffer[ind] == '0')
 		return (0); /* printf(".0d", 0)  no char is printed */
 
-	if (precision > 0 && precision < length)
+	if (precision > 0 && precision < len)
 		pdd = ' ';
 
-	while (precision > length)
+	while (precision > len)
 	{
 		buffer[--ind] = '0';
 		len++;
@@ -184,15 +184,15 @@ int write_unsgnd(int is_negative, int ind,
 
 		if (flags & F_MINUS) /* Asign extra char to left of buffer [buffer>padd]*/
 		{
-			return (write(1, &buffer[ind], length) + write(1, &buffer[0], i));
+			return (write(1, &buffer[ind], len) + write(1, &buffer[0], i));
 		}
 		else /* Asign extra char to left of padding [padd>buffer]*/
 		{
-			return (write(1, &buffer[0], i) + write(1, &buffer[ind], length));
+			return (write(1, &buffer[0], i) + write(1, &buffer[ind], len));
 		}
 	}
 
-	return (write(1, &buffer[ind], length));
+	return (write(1, &buffer[ind], len));
 }
 
 /**
