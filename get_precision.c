@@ -2,41 +2,41 @@
 
 /**
  * get_precision - Calculates the precision for printing
- * @format: Formatted string in which to print the arguments
- * @i: List of arguments to be printed.
- * @list: list of arguments.
+ * @format: Formatted str in which to print the arg
+ * @i: list of arguments to be printed.
+ * @list: list of arg.
  *
  * Return: Precision.
  */
 int get_precision(const char *format, int *i, va_list list)
 {
-	int curr_i = *i + 1;
-	int precision = -1;
+	int j = *i + 1;
+	int pres = -1;
 
-	if (format[curr_i] != '.')
-		return (precision);
+	if (format[j] != '.')
+		return (pres);
 
-	precision = 0;
+	pres = 0;
 
-	for (curr_i += 1; format[curr_i] != '\0'; curr_i++)
+	for (j += 1; format[j] != '\0'; j++)
 	{
-		if (is_digit(format[curr_i]))
+		if (is_digit(format[j]))
 		{
-			precision *= 10;
-			precision += format[curr_i] - '0';
+			pres *= 10;
+			pres += format[j] - '0';
 		}
-		else if (format[curr_i] == '*')
+		else if (format[j] == '*')
 		{
-			curr_i++;
-			precision = va_arg(list, int);
+			j++;
+			pres = va_arg(list, int);
 			break;
 		}
 		else
 			break;
 	}
 
-	*i = curr_i - 1;
+	*i = j - 1;
 
-	return (precision);
+	return (pres);
 }
 
